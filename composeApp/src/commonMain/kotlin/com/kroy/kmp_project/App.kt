@@ -15,6 +15,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.kroy.kmp_project.theme.NewsAppTheme
+import com.kroy.kmp_project.utils.getRandomId
+import com.kroy.kmp_project.utils.getType
 import org.jetbrains.compose.resources.painterResource
 
 import kmp_project.composeapp.generated.resources.Res
@@ -27,28 +29,31 @@ import org.jetbrains.compose.resources.stringResource
 @Composable
 @Preview
 fun App() {
-    NewsAppTheme(darkTheme = false) {
-        var showContent by remember { mutableStateOf(false) }
-        Column(
-            modifier = Modifier
-                .background(MaterialTheme.colorScheme.primaryContainer)
-                .safeContentPadding()
-                .fillMaxSize(),
-            horizontalAlignment = Alignment.CenterHorizontally,
-        ) {
-            Button(onClick = { showContent = !showContent }) {
-                Text("Click me!")
-            }
-            AnimatedVisibility(showContent) {
-                val greeting = remember { Greeting().greet() }
+    NewsAppTheme(darkTheme = true) {
+//        var showContent by remember { mutableStateOf(false) }
+//        Column(
+//            modifier = Modifier
+//                .background(MaterialTheme.colorScheme.primaryContainer)
+//                .safeContentPadding()
+//                .fillMaxSize(),
+//            horizontalAlignment = Alignment.CenterHorizontally,
+//        ) {
+//            Button(onClick = { showContent = !showContent }) {
+//                Text("Click me!")
+//            }
+//            AnimatedVisibility(showContent) {
+                val greeting = remember { getType() }
+                val randomId = remember { getRandomId() }
                 Column(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
                     Image(painterResource(Res.drawable.logo), null)
                     Text(stringResource(Res.string.app_name))
+                    Text("Compose: $greeting")
+                    Text("RandomID: $randomId")
                 }
             }
         }
-    }
-}
+   // }
+//}
