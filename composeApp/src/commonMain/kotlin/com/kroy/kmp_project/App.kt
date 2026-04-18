@@ -15,6 +15,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.kroy.kmp_project.theme.NewsAppTheme
+import com.kroy.kmp_project.ui.MainScreen
 import com.kroy.kmp_project.utils.getRandomId
 import com.kroy.kmp_project.utils.getType
 import org.jetbrains.compose.resources.painterResource
@@ -29,20 +30,11 @@ import org.jetbrains.compose.resources.stringResource
 @Composable
 @Preview
 fun App() {
-    NewsAppTheme(darkTheme = true) {
-//        var showContent by remember { mutableStateOf(false) }
-//        Column(
-//            modifier = Modifier
-//                .background(MaterialTheme.colorScheme.primaryContainer)
-//                .safeContentPadding()
-//                .fillMaxSize(),
-//            horizontalAlignment = Alignment.CenterHorizontally,
-//        ) {
-//            Button(onClick = { showContent = !showContent }) {
-//                Text("Click me!")
-//            }
-//            AnimatedVisibility(showContent) {
-                val greeting = remember { getType() }
+    NewsAppTheme(darkTheme = false) {
+        MainScreen()
+
+         //DUMMY CODE
+         /*       val greeting = remember { getType() }
                 val randomId = remember { getRandomId() }
                 Column(
                     modifier = Modifier.fillMaxWidth(),
@@ -52,7 +44,7 @@ fun App() {
                     Text(stringResource(Res.string.app_name))
                     Text("Compose: $greeting")
                     Text("RandomID: $randomId")
-                }
+                }*/
             }
         }
    // }
