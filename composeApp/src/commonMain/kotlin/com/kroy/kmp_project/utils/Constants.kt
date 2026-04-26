@@ -1,6 +1,8 @@
 package com.kroy.kmp_project.utils
 
+import com.kroy.kmp_project.ui.MainScreen
 import com.kroy.kmp_project.ui.navigation.BottomNavigationitem
+import com.kroy.kmp_project.ui.navigation.MainRouteScreen
 import kmp_project.composeapp.generated.resources.Res
 import kmp_project.composeapp.generated.resources.bookmark
 import kmp_project.composeapp.generated.resources.headlines
@@ -20,16 +22,16 @@ val bottomeNavigationitemList = listOf(
     BottomNavigationitem(
         icon = Res.drawable.ic_headline ,
         title = Res.string.headlines,
-        route = "headline"
+        route = MainRouteScreen.Headlines.route
     ),
     BottomNavigationitem(
         icon = Res.drawable.ic_search ,
         title = Res.string.search,
-        route = "search"
+        route = MainRouteScreen.Search.route
     ),
     BottomNavigationitem(
         icon = Res.drawable.ic_bookmark_filled ,
         title = Res.string.bookmark,
-        route = "bookmark"
+        route = MainRouteScreen.Bookmark.route
     ),
     )

@@ -16,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.kroy.kmp_project.theme.NewsAppTheme
 import com.kroy.kmp_project.ui.MainScreen
+import com.kroy.kmp_project.ui.navigation.graphs.RootNavGraph
 import com.kroy.kmp_project.utils.getRandomId
 import com.kroy.kmp_project.utils.getType
 import org.jetbrains.compose.resources.painterResource
@@ -31,7 +32,7 @@ import org.jetbrains.compose.resources.stringResource
 @Preview
 fun App() {
     NewsAppTheme(darkTheme = false) {
-        MainScreen()
+       RootNavGraph()
 
          //DUMMY CODE
          /*       val greeting = remember { getType() }

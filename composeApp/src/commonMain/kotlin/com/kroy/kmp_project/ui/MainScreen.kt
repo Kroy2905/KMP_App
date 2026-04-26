@@ -10,12 +10,18 @@ import androidx.compose.material3.Text
 
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.text.font.FontWeight
+import androidx.navigation.NavController
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.rememberNavController
 import com.kroy.kmp_project.ui.navigation.NewsBottomnaviBar
+import com.kroy.kmp_project.ui.navigation.graphs.MainNavGraph
 import com.kroy.kmp_project.utils.bottomeNavigationitemList
 import kmp_project.composeapp.generated.resources.Res
 import kmp_project.composeapp.generated.resources.ic_settings
@@ -25,14 +31,25 @@ import org.jetbrains.compose.resources.stringResource
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MainScreen() {
-    var currentRoute  by remember {mutableStateOf(bottomeNavigationitemList[0].route)}
+fun MainScreen(rootNavController: NavHostController) {
+    val homeNavController = rememberNavController()
+    val navBackStackEntry by homeNavController.currentBackStackEntryAsState()
+    var currentRoute  by remember {mutableStateOf(navBackStackEntry?.destination?.route)}
+    val topBarTitle by remember(currentRoute){
+        derivedStateOf {
+            if(currentRoute!=null){
+                bottomeNavigationitemList[bottomeNavigationitemList.indexOfFirst { it.route == currentRoute }].title
+            }else{
+                bottomeNavigationitemList[0].title
+            }
+        }
+    }
     Scaffold(
         topBar = {
             TopAppBar(
                 title = {
                     Text(
-                        text = "Headline",
+                        text = stringResource(topBarTitle),
                         style = MaterialTheme.typography.headlineLarge,
                         fontWeight = FontWeight.Bold,
                         color = MaterialTheme.colorScheme.onBackground
@@ -58,15 +75,20 @@ fun MainScreen() {
             NewsBottomnaviBar(
                 bottomNavigationitemList = bottomeNavigationitemList,
                 currentRoute = currentRoute,
-                onItemClick = {
-                    currentBottomNavigationItem->{
-                currentRoute = currentBottomNavigationItem.route
-                }
+                onItemClick = { currentBottomNavigationItem ->
+                    currentRoute = currentBottomNavigationItem.route
+                    homeNavController.navigate(currentBottomNavigationItem.route) {
+                        homeNavController.graph.startDestinationRoute?.let {
+                            popUpTo(it) { saveState = true }
+                        }
+                        launchSingleTop = true
+                        restoreState = true
+                    }
                 }
             )
         }
     ) {
-
+        MainNavGraph(rootNavController,homeNavController,it)
     }
 
 }
