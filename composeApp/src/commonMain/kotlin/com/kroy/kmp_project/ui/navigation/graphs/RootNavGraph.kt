@@ -7,6 +7,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.kroy.kmp_project.ui.MainScreen
 import com.kroy.kmp_project.ui.navigation.Graph
+import com.kroy.kmp_project.ui.navigation.SettingRouteScreen
+import com.kroy.kmp_project.ui.setting.SettingScreen
 
 @Composable
 fun RootNavGraph(){
@@ -18,6 +20,10 @@ fun RootNavGraph(){
     ){
         composable(route = Graph.MainScreenGraph){
             MainScreen(rootnavController)
+        }
+
+        composable(route = SettingRouteScreen.Setting.route){
+            SettingScreen(rootnavController)
         }
     }
 }

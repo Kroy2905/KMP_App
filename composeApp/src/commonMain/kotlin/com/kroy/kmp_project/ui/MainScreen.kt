@@ -10,10 +10,13 @@ import androidx.compose.material3.Text
 
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.text.font.FontWeight
 import androidx.navigation.NavController
@@ -21,6 +24,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.kroy.kmp_project.ui.navigation.NewsBottomnaviBar
+import com.kroy.kmp_project.ui.navigation.SettingRouteScreen
 import com.kroy.kmp_project.ui.navigation.graphs.MainNavGraph
 import com.kroy.kmp_project.utils.bottomeNavigationitemList
 import kmp_project.composeapp.generated.resources.Res
@@ -34,7 +38,8 @@ import org.jetbrains.compose.resources.stringResource
 fun MainScreen(rootNavController: NavHostController) {
     val homeNavController = rememberNavController()
     val navBackStackEntry by homeNavController.currentBackStackEntryAsState()
-    var currentRoute  by remember {mutableStateOf(navBackStackEntry?.destination?.route)}
+    val currentRoute  by rememberSaveable(navBackStackEntry) {mutableStateOf(navBackStackEntry?.destination?.route)}
+    var previousRoute  by rememberSaveable(navBackStackEntry) {mutableStateOf(navBackStackEntry?.destination?.route)}
     val topBarTitle by remember(currentRoute){
         derivedStateOf {
             if(currentRoute!=null){
@@ -43,6 +48,16 @@ fun MainScreen(rootNavController: NavHostController) {
                 bottomeNavigationitemList[0].title
             }
         }
+    }
+    DisposableEffect(Unit){
+        previousRoute = currentRoute
+        println("previous route =  $previousRoute")
+        onDispose {
+
+        }
+    }
+    LaunchedEffect(Unit){
+
     }
     Scaffold(
         topBar = {
@@ -59,7 +74,7 @@ fun MainScreen(rootNavController: NavHostController) {
                 actions = {
                     IconButton(
                         onClick = {
-                            //TODO():
+                           rootNavController.navigate(SettingRouteScreen.Setting.route)
                         }
                     ){
                         Icon(
@@ -76,7 +91,6 @@ fun MainScreen(rootNavController: NavHostController) {
                 bottomNavigationitemList = bottomeNavigationitemList,
                 currentRoute = currentRoute,
                 onItemClick = { currentBottomNavigationItem ->
-                    currentRoute = currentBottomNavigationItem.route
                     homeNavController.navigate(currentBottomNavigationItem.route) {
                         homeNavController.graph.startDestinationRoute?.let {
                             popUpTo(it) { saveState = true }
