@@ -50,10 +50,10 @@ fun MainScreen(rootNavController: NavHostController) {
         }
     }
     DisposableEffect(Unit){
-        previousRoute = currentRoute
+
         println("previous route =  $previousRoute")
         onDispose {
-
+            previousRoute = currentRoute
         }
     }
     LaunchedEffect(Unit){
