@@ -9,8 +9,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import com.kroy.kmp_project.ui.common.ArticleListScreen
+import com.kroy.kmp_project.utils.articles
 
 @Composable
 fun HeadLineScreen(){
-    ArticleListScreen()
+    ArticleListScreen(articles)
 }

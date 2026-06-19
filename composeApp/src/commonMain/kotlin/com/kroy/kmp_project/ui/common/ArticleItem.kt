@@ -17,14 +17,19 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import coil3.compose.AsyncImage
 import com.kroy.kmp_project.data.model.Article
 import com.kroy.kmp_project.data.model.Source
 import com.kroy.kmp_project.theme.imageSize
 import com.kroy.kmp_project.theme.mediumPadding
+import kmp_project.composeapp.generated.resources.Res
+import kmp_project.composeapp.generated.resources.compose_multiplatform
+import org.jetbrains.compose.resources.painterResource
 
 @Composable
 fun ArticleItem(
@@ -37,12 +42,17 @@ fun ArticleItem(
         },
         horizontalArrangement = Arrangement.spacedBy(mediumPadding)
     ){
-        Box(
+        AsyncImage(
                 modifier = Modifier
 
                     .size(imageSize)
                     .clip(MaterialTheme.shapes.large)
-                    .background(Color.Gray)
+                    .background(Color.Gray),
+            model = article.urlToImage,
+            error = painterResource(Res.drawable.compose_multiplatform),
+            placeholder = painterResource(Res.drawable.compose_multiplatform),
+            contentScale = ContentScale.Crop,
+            contentDescription = null,
         )
         Column (
             modifier = Modifier.weight(1f),
