@@ -1,5 +1,9 @@
 package com.kroy.kmp_project.utils
 
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.scaleIn
 import com.kroy.kmp_project.data.model.Article
 import com.kroy.kmp_project.data.model.Source
 import com.kroy.kmp_project.ui.MainScreen
@@ -82,3 +86,11 @@ val articles: List<Article> = listOf(
         content = "What is the content?"
     )
 )
+
+val FadeIn = fadeIn(animationSpec = tween(220, delayMillis = 90)) +
+        scaleIn(
+            initialScale = 0.92f,
+            animationSpec = tween(220, delayMillis = 90)
+        )
+
+val FadeOut = fadeOut(animationSpec = tween(90))

@@ -15,8 +15,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.mediaQuery
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.kroy.kmp_project.theme.mediumPadding
 import com.kroy.kmp_project.ui.common.ArticleListScreen
+import com.kroy.kmp_project.ui.common.EmptyContent
+import com.kroy.kmp_project.ui.common.ShimmerEffect
+import com.kroy.kmp_project.ui.headline.HeadlineViewModel
 import com.kroy.kmp_project.ui.search.components.SearchBarScreen
 import com.kroy.kmp_project.utils.articles
 
@@ -25,7 +30,9 @@ fun SearchScreen(){
     var searchQuery by rememberSaveable(){
         mutableStateOf("")
     }
-   Column(
+    val searchViewModel = viewModel { SearchViewModel() }
+    val uiState by searchViewModel.newsStateFlow.collectAsStateWithLifecycle()
+    Column(
        verticalArrangement = Arrangement.spacedBy(mediumPadding)
    ){
        SearchBarScreen(
@@ -35,12 +42,29 @@ fun SearchScreen(){
            },
            onSearch = {query->
                if(query.trim().isNotEmpty()){
+                  searchViewModel.searchQueryNews(query)
                    println(query)
                }
 
            }
        )
-      ArticleListScreen(articles)
+        uiState.DisplayResult(
+            onIdle = {
+                EmptyContent("Type to Search")
+            },
+            onLoading = {
+                ShimmerEffect()
+            },
+            onError = {
+                EmptyContent(it)
+            },
+            onSuccess = {list->
+                if(list.isEmpty())
+                    EmptyContent("List is empty")
+                else
+                    ArticleListScreen(list)
+            }
+        )
    }
 
 }
